@@ -7,8 +7,11 @@ env-init:
 	@mkdir -p ./airflow/dags ./airflow/logs ./airflow/plugins
 	@echo -e "AIRFLOW_UID=$(id -u)" > .env
 
-airflow-run:
+airflow-up:
 	@docker-compose up
+
+airflow-down:
+	@docker-compose down
 
 airflow-dashboard:
 	@open http://localhost:8080
