@@ -1,10 +1,10 @@
 from contextlib import contextmanager
 
-from sqlalchemy import create_engine, orm
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker, scoped_session
 
-Base = declarative_base()
+BaseModel = declarative_base()
 
 
 class Database:
@@ -20,7 +20,7 @@ class Database:
         )
 
     def create_database(self) -> None:
-        Base.metadata.create_all(self._engine)
+        BaseModel.metadata.create_all(self._engine)
 
     @contextmanager
     def session(self) -> Session:

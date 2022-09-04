@@ -1,3 +1,4 @@
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -5,8 +6,15 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from dotenv import load_dotenv
+
+from twitter_growth.database import BaseModel
+
+load_dotenv()
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+
 config = context.config
 
 # Interpret the config file for Python logging.
@@ -18,12 +26,14 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = BaseModel.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+database_url: str = os.getenv("TWITTER_GROWTH_DATABASE_URL")
 
 
 def run_migrations_offline() -> None:
@@ -38,7 +48,8 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = config.get_main_option("sqlalchemy.url", database_url)
+
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -57,8 +68,12 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    configs = config.get_section(config.config_ini_section)
+
+    configs["sqlalchemy.url"] = database_url
+
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
+        configs,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )

@@ -5,4 +5,3 @@ def create_app() -> None:
     container = Container()
 
     container.db().create_database()
-

@@ -1,10 +1,10 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
-from twitter_growth.database.engine import Base
+from twitter_growth.database.engine import BaseModel
 
 
-class PromoUsers(Base):
+class PromoUsers(BaseModel):
     """
     Users that we need to promote via the follow rate optimization
     """
@@ -19,14 +19,14 @@ class PromoUsers(Base):
         return f"<User(id='{self.id}', username='{self.username}')>"
 
 
-class SeedUsers(Base):
+class SeedUsers(BaseModel):
     """
     Users that we assume to have content similar to promoting users.
     Hence, we use their followers to build a candidate list to follow
     """
     __tablename__ = "seed_users"
 
-    id = Column(Integer, unique=True)
+    id = Column(Integer,  primary_key=True, unique=True)
     username = Column(String, unique=True)
 
     promo_user_id = Column(Integer, ForeignKey("promo_users.id"), index=True)

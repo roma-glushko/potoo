@@ -1,4 +1,8 @@
 
+_guard-%:
+	@#$(or ${$*}, $(error $* is not set))
+
+
 env-init:
 	@mkdir -p ./airflow/dags ./airflow/logs ./airflow/plugins
 	@echo -e "AIRFLOW_UID=$(id -u)" > .env
@@ -17,3 +21,9 @@ flower-dashboard:
 
 airflow-info:
 	@docker-compose run airflow-worker airflow info
+
+migration-add: _guard-MSG
+	@alembic revision --autogenerate -m ${MSG}
+
+migrate:
+	@alembic upgrade head
