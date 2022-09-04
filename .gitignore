@@ -1,0 +1,8 @@
+.venv
+.idea
+databases
+
+airflow/logs
+airflow/data
+
+.env
