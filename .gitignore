@@ -6,3 +6,6 @@ airflow/logs
 airflow/data
 
 .env
+
+__pycache__
+*.pyc
