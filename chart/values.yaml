@@ -1,0 +1,43 @@
+airflow:
+  executor: "LocalExecutor"
+  images:
+    airflow:
+      repository: potoo/airflow
+      tag: dev
+
+  webserver:
+    livenessProbe:
+      timeoutSeconds: 300
+      failureThreshold: 60
+    readinessProbe:
+      timeoutSeconds: 300
+      failureThreshold: 60
+
+  webserverSecretKey: "8794e51f60b192c8d06f599c75458aca"
+
+  statsd:
+    enabled: false
+
+  cleanup:
+    enabled: true
+
+  env:
+    - name: IMAGE_TASK
+      value: potoo/custom-task:dev
+
+  defaultUser:
+    enabled: true
+    role: Admin
+    username: roma
+    email: roman.glushko.m@gmail.com
+    firstName: Roman
+    lastName: Hlushko
+    password: admin
+
+  postgresql:
+    postgresqlPassword: postgres
+    postgresqlUsername: postgres
+
+    persistence:
+      enabled: true
+      existingClaim: airflow-postgres-pv

@@ -1,7 +1,7 @@
 from dependency_injector import containers, providers
 
-from twitter_growth.config import DatabaseConfig, TwitterConfig
-from twitter_growth.database.engine import Database
+from potoo.config import DatabaseConfig, TwitterConfig
+from potoo.database.engine import Database
 
 
 class Container(containers.DeclarativeContainer):

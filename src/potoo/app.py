@@ -1,4 +1,4 @@
-from twitter_growth.containers import Container
+from potoo.containers import Container
 
 
 def create_app() -> None:

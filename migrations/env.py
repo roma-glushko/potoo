@@ -8,7 +8,7 @@ from alembic import context
 
 from dotenv import load_dotenv
 
-from twitter_growth.database import BaseModel
+from potoo.database import BaseModel
 
 load_dotenv()
 

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
-from twitter_growth.database.engine import BaseModel
+from potoo.database.engine import BaseModel
 
 
 class PromoUsers(BaseModel):
