@@ -8,8 +8,8 @@ BaseModel = declarative_base()
 
 
 class Database:
-    def __init__(self, db_url: str) -> None:
-        self._engine = create_engine(db_url, connect_args={"check_same_thread": False})
+    def __init__(self, uri: str) -> None:
+        self._engine = create_engine(uri, connect_args={"check_same_thread": False})
 
         self.session_factory = scoped_session(
             sessionmaker(
@@ -28,7 +28,7 @@ class Database:
         try:
             yield session
         except Exception as e:
-            print('Session rollback because of exception: %s', e)
+            print(f'Session rollback because of exception: {e!r}')
             session.rollback()
         finally:
             session.close()

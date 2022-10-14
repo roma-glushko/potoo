@@ -1,5 +1,5 @@
 airflow:
-  executor: "LocalExecutor"
+  executor: "CeleryKubernetesExecutor"  # LocalExecutor
   images:
     airflow:
       repository: potoo/airflow
@@ -20,10 +20,6 @@ airflow:
 
   cleanup:
     enabled: true
-
-  env:
-    - name: IMAGE_TASK
-      value: potoo/custom-task:dev
 
   defaultUser:
     enabled: true

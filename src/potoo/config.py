@@ -1,12 +1,16 @@
 from pydantic import BaseSettings, Field
 
-# todo: figure out how to use SecretStr with containers
 
-class TwitterConfig(BaseSettings):
+class BaseConfig(BaseSettings):
+    class Config:
+        env_prefix = "POTOO__"
+
+
+class TwitterConfig(BaseConfig):
     api_key: str = Field(..., env="TWITTER_API_KEY")
     api_secret: str = Field(..., env="TWITTER_API_SECRET")
     bearer_token: str = Field(..., env="TWITTER_BEARER_TOKEN")
 
 
-class DatabaseConfig(BaseSettings):
-    url: str = Field(..., env="TWITTER_GROWTH_DATABASE_URL")
+class DatabaseConfig(BaseConfig):
+    uri: str = Field(..., env="DATABASE_URI")

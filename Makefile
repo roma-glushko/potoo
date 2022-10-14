@@ -25,12 +25,11 @@ _guard-%:
 airflow:  ## Open Airflow dashboard
 	@open http://localhost:8080/
 
-env-init:
-	@mkdir -p ./airflow/dags ./airflow/logs ./airflow/plugins
-	@echo -e "AIRFLOW_UID=$(id -u)" > .env
-
 migration-create: _guard-MSG  ## Create a new Alembic migration
 	@alembic revision --autogenerate -m ${MSG}
 
 migration:  ## Run all migrations
 	@alembic upgrade head
+
+image: ## Build the image
+	@docker build . --tag hlushko/potoo

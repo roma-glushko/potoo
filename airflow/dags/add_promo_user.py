@@ -1,11 +1,11 @@
 from airflow import DAG
-from airflow.decorators import task
+from airflow.models.param import Param
 
 with DAG(
     "add_promo_user",
     tags=["twitter-growth"],
     params={
-        "username": Param(5, type="integer", minimum=3),
+        "username": Param(type="string"),
     },
 ) as dag:
     ...
