@@ -26,10 +26,10 @@ airflow:  ## Open Airflow dashboard
 	@open http://localhost:8080/
 
 migration-create: _guard-MSG  ## Create a new Alembic migration
-	@alembic revision --autogenerate -m ${MSG}
+	@cd src/potoo && alembic revision --autogenerate -m ${MSG}
 
-migration:  ## Run all migrations
-	@alembic upgrade head
+migration-exec:  ## Run all migrations
+	@cd src/potoo && alembic upgrade head
 
 image: ## Build the image
 	@docker build . --tag hlushko/potoo

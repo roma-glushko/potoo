@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from potoo.database.engine import BaseModel
 
 
-class PromoUsers(BaseModel):
+class PromoUser(BaseModel):
     """
     Users that we need to promote via the follow rate optimization
     """
@@ -13,13 +13,13 @@ class PromoUsers(BaseModel):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
 
-    seeds = relationship("SeedUsers")
+    seeds = relationship("SeedUser")
 
     def __repr__(self):
-        return f"<User(id='{self.id}', username='{self.username}')>"
+        return f"<PromoUser(id='{self.id}', username='{self.username}')>"
 
 
-class SeedUsers(BaseModel):
+class SeedUser(BaseModel):
     """
     Users that we assume to have content similar to promoting users.
     Hence, we use their followers to build a candidate list to follow
