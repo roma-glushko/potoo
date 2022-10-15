@@ -19,7 +19,7 @@ class Database:
             )
         )
 
-    def create_database(self) -> None:
+    def init_database(self) -> None:
         BaseModel.metadata.create_all(self._engine)
 
     @contextmanager

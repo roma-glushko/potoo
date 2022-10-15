@@ -33,7 +33,7 @@ target_metadata = BaseModel.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-database_url: str = os.getenv("TWITTER_GROWTH_DATABASE_URL")
+database_url: str = os.getenv("POTOO__DATABASE_URI")
 
 
 def run_migrations_offline() -> None:

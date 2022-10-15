@@ -26,7 +26,7 @@ class SeedUsers(BaseModel):
     """
     __tablename__ = "seed_users"
 
-    id = Column(Integer,  primary_key=True, unique=True)
+    id = Column(Integer, primary_key=True, unique=True)
     username = Column(String, unique=True)
 
     promo_user_id = Column(Integer, ForeignKey("promo_users.id"), index=True)
