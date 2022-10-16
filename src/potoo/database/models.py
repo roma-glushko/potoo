@@ -1,4 +1,6 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from datetime import datetime
+
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 from potoo.database.engine import BaseModel
@@ -12,6 +14,8 @@ class PromoUser(BaseModel):
     __tablename__ = "promo_users"
 
     id = Column(Integer, primary_key=True, index=True)
+    added_at = Column(DateTime, default=datetime.now)
+
     username = Column(String, unique=True, index=True)
 
     seeds = relationship("SeedUser")
@@ -29,8 +33,9 @@ class SeedUser(BaseModel):
     __tablename__ = "seed_users"
 
     id = Column(Integer, primary_key=True, unique=True)
-    username = Column(String, unique=True)
+    added_at = Column(DateTime, default=datetime.now)
 
+    username = Column(String, unique=True)
     promo_user_id = Column(Integer, ForeignKey("promo_users.id"), index=True)
 
     def __repr__(self):

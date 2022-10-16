@@ -3,10 +3,15 @@ PROJECT_NAME?=potoo
 SOURCE_DIRS=src airflow
 TEST_DIRS=src/potoo/tests
 
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
 .PHONY: help
 help:
 	@echo "\033[1;37m$(PROJECT_NAME)\033[0m :: Available Commands"
-	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | sed -e "s/^Makefile://" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 k3d-start:  ## Start a new k3d cluster
 	@k3d cluster create $(PROJECT_NAME) \
@@ -31,16 +36,20 @@ airflow:  ## Open Airflow dashboard
 migration-create: _guard-MSG  ## Create a new Alembic migration
 	@cd src/potoo && alembic revision --autogenerate -m ${MSG}
 
-migration-exec:  ## Run all migrations
+migration-exec: ## Run all migrations
 	@cd src/potoo && alembic upgrade head
 
 image: ## Build the image
 	@docker build . --tag hlushko/potoo
 
 lint: ## Lint source code
+	@echo "🛠 isort"
 	@isort $(SOURCE_DIRS)
+	@echo "🛠 black"
 	@black $(SOURCE_DIRS)
+	@echo "🛠 flake8"
 	@flake8 $(SOURCE_DIRS)
+	@echo "🛠 mypy"
 	@mypy $(SOURCE_DIRS)
 
 tests: ## Run tests
