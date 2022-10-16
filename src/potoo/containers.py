@@ -4,7 +4,7 @@ from dependency_injector.providers import Configuration, Singleton
 from potoo.config import Config
 from potoo.database.engine import Database
 from potoo.repositories import CandidateRepository, PromoUserRepository
-from potoo.services import PromoUserService, CandidateService
+from potoo.services import CandidateService, PromoUserService
 from potoo.services.twitter import TwitterUserService, get_twitter_client
 
 

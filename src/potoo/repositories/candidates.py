@@ -10,12 +10,12 @@ class CandidateRepository:
 
     def add_seed_users(
         self,
-        promo_user_id: str,
-        seed_users: list[str],
+        promo_username: str,
+        seed_usernames: list[str],
     ) -> None:
         with self.session_factory() as session:
-            for user_id in seed_users:
-                seed_user = SeedUser(promo_user_id=promo_user_id, user_id=user_id)
+            for username in seed_usernames:
+                seed_user = SeedUser(promo_username=promo_username, user_id=user_id)
                 session.add(seed_user)
 
             session.commit()
