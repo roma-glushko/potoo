@@ -8,6 +8,9 @@ db_cli = typer.Typer()
 
 @db_cli.command("init")
 def init_database() -> None:
+    """
+    Init Potoo database
+    """
     container = Container()
     container.config.from_pydantic(Config())
 

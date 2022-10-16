@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 @promo_cli.command("add")
 def add_promo_user(user_id: str) -> None:
+    """
+    Add a new user to promote
+    """
     container = Container()
     container.config.from_pydantic(Config())
 

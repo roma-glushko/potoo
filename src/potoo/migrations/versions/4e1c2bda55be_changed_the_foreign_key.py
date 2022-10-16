@@ -1,8 +1,8 @@
-"""init_users
+"""changed_the_foreign_key
 
-Revision ID: 2557074a6ddb
+Revision ID: 4e1c2bda55be
 Revises: 
-Create Date: 2022-10-16 12:36:00.679356
+Create Date: 2022-10-16 13:41:29.357896
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2557074a6ddb'
+revision = '4e1c2bda55be'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,9 +29,9 @@ def upgrade() -> None:
     op.create_table('seed_users',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('added_at', sa.DateTime(), nullable=True),
-    sa.Column('user_id', sa.String(), nullable=True),
     sa.Column('promo_user_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['promo_user_id'], ['promo_users.id'], ),
+    sa.Column('user_id', sa.String(), nullable=True),
+    sa.ForeignKeyConstraint(['promo_user_id'], ['promo_users.user_id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('id'),
     sa.UniqueConstraint('user_id')

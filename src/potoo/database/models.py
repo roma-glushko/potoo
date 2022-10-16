@@ -35,8 +35,8 @@ class SeedUser(BaseModel):
     id = Column(Integer, primary_key=True, unique=True)
     added_at = Column(DateTime, default=datetime.utcnow)
 
+    promo_user_id = Column(Integer, ForeignKey("promo_users.user_id"), index=True)
     user_id = Column(String, unique=True)
-    promo_user_id = Column(Integer, ForeignKey("promo_users.id"), index=True)
 
     def __repr__(self):
-        return f"<SeedUser(id='{self.id}', user='{self.user_id}', promo_user='{self.promo_user_id}')>"
+        return f"<SeedUser(id='{self.id}', promo_user='{self.promo_user_id}', user='{self.user_id}')>"

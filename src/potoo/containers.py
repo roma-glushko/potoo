@@ -3,7 +3,7 @@ from dependency_injector.providers import Configuration, Factory
 
 from potoo.config import Config
 from potoo.database.engine import Database
-from potoo.repositories import PromoUserRepository
+from potoo.repositories import PromoUserRepository, SeedUserRepository
 
 
 class Container(containers.DeclarativeContainer):
@@ -13,5 +13,10 @@ class Container(containers.DeclarativeContainer):
 
     promo_user_repository: Factory[PromoUserRepository] = Factory(
         PromoUserRepository,
+        session_factory=db.provided.session,
+    )
+
+    seed_user_repository: Factory[SeedUserRepository] = Factory(
+        SeedUserRepository,
         session_factory=db.provided.session,
     )
