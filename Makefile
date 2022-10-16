@@ -1,5 +1,8 @@
 PROJECT_NAME?=potoo
 
+SOURCE_DIRS=src airflow
+TEST_DIRS=src/potoo/tests
+
 .PHONY: help
 help:
 	@echo "\033[1;37m$(PROJECT_NAME)\033[0m :: Available Commands"
@@ -33,3 +36,12 @@ migration-exec:  ## Run all migrations
 
 image: ## Build the image
 	@docker build . --tag hlushko/potoo
+
+lint: ## Lint source code
+	@isort $(SOURCE_DIRS)
+	@black $(SOURCE_DIRS)
+	@flake8 $(SOURCE_DIRS)
+	@mypy $(SOURCE_DIRS)
+
+tests: ## Run tests
+	@pytest $(TEST_DIRS)

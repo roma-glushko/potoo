@@ -1,5 +1,6 @@
-from airflow import DAG
 from airflow.models.param import Param
+
+from airflow import DAG
 
 with DAG(
     "add_promo_user",

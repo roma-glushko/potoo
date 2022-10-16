@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from potoo.database.engine import BaseModel
@@ -8,6 +8,7 @@ class PromoUser(BaseModel):
     """
     Users that we need to promote via the follow rate optimization
     """
+
     __tablename__ = "promo_users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -24,6 +25,7 @@ class SeedUser(BaseModel):
     Users that we assume to have content similar to promoting users.
     Hence, we use their followers to build a candidate list to follow
     """
+
     __tablename__ = "seed_users"
 
     id = Column(Integer, primary_key=True, unique=True)

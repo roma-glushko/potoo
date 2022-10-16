@@ -3,7 +3,7 @@ from typing import Callable, Generator
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, sessionmaker, scoped_session
+from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
 from potoo.database.typing import SessionFactory
 
@@ -15,11 +15,7 @@ class Database:
         self._engine = create_engine(uri, connect_args={"check_same_thread": False})
 
         self.session_factory: Callable[[], Session] = scoped_session(
-            sessionmaker(
-                autocommit=False,
-                autoflush=False,
-                bind=self._engine
-            )
+            sessionmaker(autocommit=False, autoflush=False, bind=self._engine)
         )
 
     def init_database(self) -> None:
@@ -32,7 +28,7 @@ class Database:
         try:
             yield session
         except Exception as e:
-            print(f'Session rollback because of exception: {e!r}')
+            print(f"Session rollback because of exception: {e!r}")
             session.rollback()
         finally:
             session.close()
