@@ -11,6 +11,12 @@ BaseModel = declarative_base()
 logger = logging.getLogger(__name__)
 
 
+class DatabaseException(RuntimeError):
+    """
+    Exception that happened during work with database session
+    """
+
+
 class Database:
     def __init__(self, uri: str) -> None:
         self._engine = create_engine(uri, connect_args={"check_same_thread": False})
@@ -29,7 +35,10 @@ class Database:
         try:
             yield session
         except Exception as e:
-            logger.error(f"Session rollback because of exception: {e!r}", exc_info=e)
             session.rollback()
+
+            raise DatabaseException(
+                f"Session rollback because of exception: {e!r}"
+            ) from e
         finally:
             session.close()

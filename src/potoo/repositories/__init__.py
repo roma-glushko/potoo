@@ -1,4 +1,4 @@
-from potoo.repositories.promo_users import PromoUserRepository
-from potoo.repositories.seed_users import SeedUserRepository
+from potoo.repositories.candidates import CandidateRepository
+from potoo.repositories.promos import PromoUserRepository
 
-__all__ = ("PromoUserRepository", "SeedUserRepository")
+__all__ = ("PromoUserRepository", "CandidateRepository")

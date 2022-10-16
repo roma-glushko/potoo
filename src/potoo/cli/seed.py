@@ -3,7 +3,8 @@ import logging
 import typer
 
 from potoo.config import Config
-from potoo.containers import Container
+from potoo.containers import Runtime
+from potoo.logger import init_logger
 
 seed_cli = typer.Typer()
 
@@ -11,15 +12,15 @@ logger = logging.getLogger(__name__)
 
 
 @seed_cli.command("add")
-def add_seed_users(promo_user_id: str, seed_user_ids: list[str]) -> None:
+def add_seed_users(promo_username: str, seed_usernames: list[str]) -> None:
     """
     Add seed users to generate candidate pool based on their followers
     """
-    container = Container()
-    container.config.from_pydantic(Config())
+    runtime = Runtime()
+    runtime.config.from_pydantic(Config())
+    init_logger(log_level=runtime.config.log_level())
 
-    seed_user_repository = container.seed_user_repository()
+    candidate_service = runtime.candidate_service()
+    candidate_service.add_seed_users(promo_username, seed_usernames)
 
-    seed_user_repository.add(promo_user_id, seed_user_ids)
-
-    logger.info("Seed users have been added")
+    logger.info("Seed users have been added ✅")

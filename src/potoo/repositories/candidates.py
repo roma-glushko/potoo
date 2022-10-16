@@ -2,11 +2,13 @@ from potoo.database import SeedUser
 from potoo.database.typing import SessionFactory
 
 
-class SeedUserRepository:
+class CandidateRepository:
+    """ """
+
     def __init__(self, session_factory: SessionFactory) -> None:
         self.session_factory = session_factory
 
-    def add(
+    def add_seed_users(
         self,
         promo_user_id: str,
         seed_users: list[str],
