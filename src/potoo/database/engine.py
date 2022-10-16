@@ -1,3 +1,4 @@
+import logging
 from contextlib import contextmanager
 from typing import Callable, Generator
 
@@ -6,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 
 BaseModel = declarative_base()
+
+logger = logging.getLogger(__name__)
 
 
 class Database:
@@ -26,7 +29,7 @@ class Database:
         try:
             yield session
         except Exception as e:
-            print(f"Session rollback because of exception: {e!r}")
+            logger.error(f"Session rollback because of exception: {e!r}", exc_info=e)
             session.rollback()
         finally:
             session.close()

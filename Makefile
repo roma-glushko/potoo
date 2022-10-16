@@ -13,6 +13,9 @@ help:
 	@echo "\033[1;37m$(PROJECT_NAME)\033[0m :: Available Commands"
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | sed -e "s/^Makefile://" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+pythonpath: ## Configure PYTHONPATH
+	@export PYTHONPATH="$PYTHONPATH:$PWD/src/"
+
 k3d-start:  ## Start a new k3d cluster
 	@k3d cluster create $(PROJECT_NAME) \
 		--agents 2 \
