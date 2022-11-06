@@ -1,5 +1,5 @@
 from potoo.repositories import CandidateRepository
-from potoo.services import TwitterUserService
+from potoo.services.twitter import TwitterUserService
 
 
 class CandidateService:

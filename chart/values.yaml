@@ -1,4 +1,45 @@
+postgresql:
+  nameOverride: "potoo-postgresql"
+  fullnameOverride: "potoo-postgresql"
+  auth:
+    postgresPassword: postgresAdmin
+    username: potoo
+    password: potoo
+    database: potoo
+
+    replicationUsername: potooReplica
+    replicationPassword: potooReplica
+
+  postgresqlDataDir: /bitnami/postgresql/postgresql.cluster
+
+  primary:
+    persistence:
+      enabled: true
+      existingClaim: airflow-postgres-pv
+
+    initdb:
+      user: postgres
+      password: postgresAdmin
+      scripts:
+        init.sql: |
+          CREATE DATABASE airflow;
+          CREATE USER airflow WITH PASSWORD 'airflow';
+          GRANT ALL PRIVILEGES ON DATABASE airflow TO airflow;
+          ALTER DATABASE airflow OWNER TO airflow;
+          ALTER SCHEMA public OWNER TO airflow;
+          
+          CREATE DATABASE superset;
+          CREATE USER superset WITH PASSWORD 'superset';
+          GRANT ALL PRIVILEGES ON DATABASE superset TO superset;
+          ALTER DATABASE superset OWNER TO superset;
+          ALTER SCHEMA public OWNER TO superset;
+          
+          GRANT ALL PRIVILEGES ON DATABASE airflow TO potoo;
+          GRANT ALL PRIVILEGES ON DATABASE superset TO potoo;
+
 airflow:
+  nameOverride: airflow
+  fullnameOverride: airflow
   executor: "CeleryKubernetesExecutor"  # LocalExecutor
   images:
     airflow:
@@ -13,7 +54,14 @@ airflow:
       timeoutSeconds: 300
       failureThreshold: 60
 
-  webserverSecretKey: "8794e51f60b192c8d06f599c75458aca"
+    defaultUser:
+      enabled: true
+      role: Admin
+      username: roma
+      email: roman.glushko.m@gmail.com
+      firstName: Roman
+      lastName: Hlushko
+      password: admin
 
   statsd:
     enabled: false
@@ -21,19 +69,53 @@ airflow:
   cleanup:
     enabled: true
 
-  defaultUser:
-    enabled: true
-    role: Admin
-    username: roma
-    email: roman.glushko.m@gmail.com
-    firstName: Roman
-    lastName: Hlushko
-    password: admin
+  data:
+    metadataConnection:
+      user: airflow
+      pass: airflow
+      protocol: postgresql
+      host: potoo-postgresql
+      port: 5432
+      db: airflow
+      sslmode: disable
+
+  webserverSecretKey: "8794e51f60b192c8d06f599c75458aca"
+
+  redis:
+    serviceAccount:
+      create: false
+    password: potoo
 
   postgresql:
-    postgresqlPassword: postgres
-    postgresqlUsername: postgres
+    enabled: false
 
-    persistence:
-      enabled: true
-      existingClaim: airflow-postgres-pv
+superset:
+  nameOverride: superset
+  fullnameOverride: superset
+
+  redis:
+    enabled: false
+
+  postgresql:
+    enabled: false
+
+  init:
+    adminUser:
+      username: roma
+      firstname: Roma
+      lastname: Hlushko
+      email: roman.glushko.m@gmail.com
+      password: admin
+
+  supersetNode:
+    replicaCount: 1
+    connections:
+      redis_host: 'airflow-redis.airflow'
+      redis_password: potoo
+      redis_port: "6379"
+
+      db_host: potoo-postgresql
+      db_port: "5432"
+      db_user: superset
+      db_pass: superset
+      db_name: superset

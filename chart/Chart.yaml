@@ -1,5 +1,5 @@
 apiVersion: v2
-name: airflow-k8s-dev
+name: potoo
 description: A local dev chart for Airflow
 
 type: application
@@ -11,3 +11,11 @@ dependencies:
   - name: airflow
     version: 1.6.0
     repository: https://airflow.apache.org/
+
+  - name: superset
+    version: 0.7.4
+    repository: http://apache.github.io/superset/
+
+  - name: postgresql
+    version: 12.1.0
+    repository: https://charts.bitnami.com/bitnami

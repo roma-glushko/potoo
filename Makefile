@@ -23,6 +23,10 @@ k3d-start:  ## Start a new k3d cluster
 		--k3s-node-label type=agent@agent:0,1 \
 		--volume "$(PWD)/.data/:/data@agent:0,1"
 
+data-reset: ## Wipe out all database data
+	@rm -rf .data/postgresql.cluster
+	@rm -rf .data/.user_scripts_initialized
+
 k3d-stop:  ## Stop the k3d cluster
 	@k3d cluster delete $(PROJECT_NAME)
 
@@ -35,6 +39,10 @@ _guard-%:
 .PHONY: airflow
 airflow:  ## Open Airflow dashboard
 	@open http://localhost:8080/
+
+.PHONY: superset
+superset:  ## Open Airflow dashboard
+	@open http://localhost:8088/
 
 migration-create: _guard-MSG  ## Create a new Alembic migration
 	@cd src/potoo && alembic revision --autogenerate -m ${MSG}

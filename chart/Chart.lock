@@ -2,5 +2,11 @@ dependencies:
 - name: airflow
   repository: https://airflow.apache.org/
   version: 1.6.0
-digest: sha256:c2e83e535bf0d6b87f7868c5c537db1d912a52345b99c7dc2374b390324ec97e
-generated: "2022-10-11T00:20:06.127318+03:00"
+- name: superset
+  repository: http://apache.github.io/superset/
+  version: 0.7.4
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.1.0
+digest: sha256:6a6da9f4565446502bf8a5d04dd04b46097bbb3696812ad082b4401c65ad91ba
+generated: "2022-11-06T14:37:09.059757+02:00"
